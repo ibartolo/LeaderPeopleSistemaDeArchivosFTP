@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migración FTP - Notificación Automática</title>
+</head>
+<body style="background-color: #f8f9fc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #5a5c69; margin: 0; padding: 20px; line-height: 1.6;">
+    <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15); overflow: hidden;">
+        
+        <!-- Encabezado -->
+        <div style="background: linear-gradient(180deg, #4e73df 0%, #2e59d9 100%); color: white; padding: 30px 20px; text-align: center;">
+            <img src="http://leaderpeopletst.desipr.com.mx/Assets/LoginSkipper1.jpg" alt="Leader People Services" style="max-width: 180px; height: auto; margin-bottom: 15px;">
+            <h2 style="margin: 0; font-size: 1.8rem;">LeaderPeople Services</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.1rem; opacity: 0.9;">Sistema Skipper - Migración Automatizada</p>
+        </div>
+        
+        <!-- Cuerpo del correo -->
+        <div style="padding: 40px 30px;">
+            
+            <!-- Saludo -->
+            <p style="color: #5a5c69; font-size: 1rem; margin-bottom: 20px;">
+                Hola equipo,
+            </p>
+            
+            <!-- Mensaje principal -->
+            <p style="color: #5a5c69; font-size: 1rem; margin-bottom: 25px;">
+                El proceso automatizado de migración de archivos por FTP ha finalizado para el período <strong style="color: #4e73df;">_Periodo</strong>.
+            </p>
+            
+            <!-- Resumen de migración -->
+            <div style="background: #f8f9fc; border-radius: 8px; padding: 25px; margin: 25px 0; border-left: 4px solid #4e73df;">
+                <h3 style="color: #4e73df; margin-top: 0; margin-bottom: 20px;">
+                    📊 RESUMEN DE MIGRACIÓN
+                </h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <div>
+                        <strong>Inicio del proceso:</strong><br>
+                        <span style="color: #5a5c69;">_FechaInicio</span>
+                    </div>
+                    <div>
+                        <strong>Fin del proceso:</strong><br>
+                        <span style="color: #5a5c69;">_FechaFin</span>
+                    </div>
+                    <div>
+                        <strong>Total archivos:</strong><br>
+                        <span style="color: #5a5c69; font-weight: 600;">_TotalArchivos</span>
+                    </div>
+                    <div>
+                        <strong>✅ Exitosos:</strong><br>
+                        <span style="color: #1cc88a; font-weight: 600;">_Exitosos</span>
+                    </div>
+                    <div>
+                        <strong>❌ Fallidos:</strong><br>
+                        <span style="color: #e74a3b; font-weight: 600;">_Fallidos</span>
+                    </div>
+                </div>
+                
+                <!-- Barra de progreso visual -->
+                <div style="background: #e3e6f0; border-radius: 10px; height: 10px; margin: 20px 0; overflow: hidden;">
+                    <div style="background: linear-gradient(180deg, #4e73df 0%, #2e59d9 100%); width: _PorcentajeExito%; height: 10px;"></div>
+                </div>
+                
+                <!-- Detalle de log -->
+                <div style="background: #f1f7ee; border-radius: 6px; padding: 15px; margin: 15px 0;">
+                    <h4 style="color: #2e9d6f; margin-top: 0; margin-bottom: 10px;">
+                        📁 Archivo de Log
+                    </h4>
+                    <p style="color: #5a5c69; margin: 5px 0;">
+                        Puedes revisar el detalle completo en el archivo de log:
+                    </p>
+                    <div style="background: #2d3748; color: #e2e8f0; padding: 12px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 0.9rem; word-break: break-all;">
+                        _RutaLog
+                    </div>
+                </div>
+                
+                <!-- Resumen rápido -->
+                <div style="display: flex; justify-content: space-around; margin: 20px 0; padding: 15px; background: #e8f5e9; border-radius: 8px;">
+                    <div style="text-align: center;">
+                        <span style="font-size: 1.5rem; font-weight: 700; color: #1cc88a;">_PorcentajeExito%</span><br>
+                        <span style="color: #5a5c69; font-size: 0.9rem;">Tasa de éxito</span>
+                    </div>
+                    <div style="text-align: center;">
+                        <span style="font-size: 1.5rem; font-weight: 700; color: #4e73df;">_Duracion</span><br>
+                        <span style="color: #5a5c69; font-size: 0.9rem;">Duración total</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mensaje automático -->
+            <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 15px; margin: 20px 0;">
+                <div style="display: flex; align-items: center;">
+                    <span style="font-size: 1.5rem; margin-right: 10px;">🤖</span>
+                    <div>
+                        <strong style="color: #856404;">Mensaje automático:</strong>
+                        <p style="color: #856404; margin: 5px 0 0 0;">
+                            Este es un mensaje automático del sistema de migración Skipper.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Despedida -->
+            <div style="text-align: left; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e3e6f0;">
+                <p style="color: #5a5c69; margin: 0;">
+                    Saludos cordiales,<br>
+                    <strong style="color: #4e73df;">Equipo de Sistemas Leader People</strong>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Pie del correo -->
+        <div style="padding: 25px 30px; background-color: #f8f9fc; border-top: 1px solid #e3e6f0; text-align: center; color: #6e707e; font-size: 0.9rem;">
+            <div style="margin-bottom: 15px;">
+                <span style="display: inline-block; margin: 0 15px;">🌐 <a href="https://leaderpeople.com.mx" style="color: #4e73df; text-decoration: none;">leaderpeople.com.mx</a></span>
+                <span style="display: inline-block; margin: 0 15px;">📧 sistemas@leaderpeople.com.mx</span>
+            </div>
+            <div style="margin-top: 15px; font-size: 0.8rem; color: #858796;">
+                © 2026 Leader People Services. Todos los derechos reservados.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
