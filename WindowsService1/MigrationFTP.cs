@@ -259,37 +259,29 @@ namespace WindowsService1
         #endregion
 
         #region Contar Archivos existentes
-        public static int ContarArchivosExistentesEnFTP(string server, string user, string pass, List<AttachmentProvider> archivos)
+        public static int ContarArchivosExistentesEnFTP(string server, string user, string pass, string inicio, string fin)
         {
-            int count = 0;
-            string baseServer = server.TrimEnd('/') + "/";
+            // Obtener cadena de conexión y consulta desde la configuración
+            string conexion = ConfigurationManager.ConnectionStrings["cCon"].ConnectionString;
+            string consulta = ConfigurationManager.AppSettings["ConteoArchivos"];
 
-            foreach (var archivo in archivos)
+            // Convertir los strings a DateTime usando un formato específico (ej: "yyyy-MM-dd HH:mm:ss")
+            // Ajusta el formato según cómo se reciban las fechas
+            
+
+            using (var conn = new SqlConnection(conexion))
+            using (var cmd = new SqlCommand(consulta, conn))
             {
-                try
-                {
-                    string cleanFilename = archivo.FullName.TrimStart('/');
-                    string fullUri = baseServer + cleanFilename;
+                // Agregar parámetros tipados como DateTime (mejor que AddWithValue)
+                cmd.Parameters.AddWithValue("@inicio", inicio);
+                cmd.Parameters.AddWithValue("@fin", fin);
 
-                    FtpWebRequest request = (FtpWebRequest)WebRequest.Create(fullUri);
-                    request.Method = WebRequestMethods.Ftp.GetFileSize; // Solo verifica existencia
-                    request.Credentials = new NetworkCredential(user, pass);
+                conn.Open();
+                object result = cmd.ExecuteScalar();
 
-                    using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
-                    {
-                        // Si llega aquí, el archivo existe
-                        count++;
-                        Log.Information("Archivo existente en FTP: {archivo}", archivo.FullName);
-                    }
-                }
-                catch(Exception ex)
-                {
-                    // Archivo no existe, ignorar
-                    Log.Warning("Archivo no encontrado en FTP: {archivo}", archivo.FullName);
-                }
+                // ExecuteScalar nunca será null para COUNT(*) pero por seguridad se convierte
+                return result != null ? Convert.ToInt32(result) : 0;
             }
-            Log.Information("Total archivos existentes en FTP: {count} de {total}", count, archivos.Count);
-            return count;
         }
         #endregion
 
@@ -414,7 +406,7 @@ namespace WindowsService1
         #endregion
 
         #region ActualizarBaseUrl
-        public static void ActualizarBaseUrl(DateTime fechaInicio, DateTime fechaFin)
+        public static void ActualizarBaseUrl(string fechaInicio, string fechaFin)
         {
             string conexion = ConfigurationManager.ConnectionStrings["cCon"].ConnectionString;
             using (var conn = new SqlConnection(conexion))
