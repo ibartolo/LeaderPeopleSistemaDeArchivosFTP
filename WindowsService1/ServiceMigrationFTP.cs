@@ -202,18 +202,19 @@ namespace WindowsService1
                     Log.Warning("Período no válido, se usará mes actual: {periodo}", periodo);
                 }
                 // ... cálculo (igual que antes)
-                Log.Information("Rango de fechas: {fechaInicio} a {fechaFin}", fechaInicio, fechaFin);
+                Log.Information("Rango de fechas: {fechaInicio} a {fechaFin}", fechaInicio.ToString("yyyy-MM-dd HH:mm:ss"), fechaFin.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 // Consultar archivos en BD
                 List<AttachmentProvider> lista = MigrationFTP.ConsultarArchivosBaseDatos(
-                    fechaInicio.ToString("yyyyMMdd"), fechaFin.ToString("yyyyMMdd"));
+                    fechaInicio.ToString("yyyy-MM-dd HH:mm:ss"), fechaFin.ToString("yyyy-MM-dd HH:mm:ss"));
                 Log.Information("Archivos encontrados en BD: {cantidad}", lista.Count);
 
                 if (lista.Count > 0)
                 {
                     // Contar archivos existentes en FTP
-                    int existentes = MigrationFTP.ContarArchivosExistentesEnFTP(ftpServer, username, password, lista);
-                    Log.Information("Archivos existentes en FTP: {existentes} de {total}", existentes, lista.Count);
+                    int existentes = MigrationFTP.ContarArchivosExistentesEnFTP(ftpServer, username, password, 
+                    fechaInicio.ToString("yyyy-MM-dd HH:mm:ss"), fechaFin.ToString("yyyy-MM-dd HH:mm:ss"));
+                    Log.Information("Archivos encontrados en la base de datos: {existentes}", existentes);
 
                     // Descargar archivos (algo pasa con el correo)
                     MigrationFTP.DescargarListaArchivos(ftpServer, username, password, lista, downloadPath, deleteAfter, periodo, fechaInicio, fechaFin);
@@ -223,7 +224,7 @@ namespace WindowsService1
                     Log.Warning("No se encontraron archivos en la BD para el período.");
                 }
 
-                MigrationFTP.ActualizarBaseUrl(fechaInicio, fechaFin);
+                MigrationFTP.ActualizarBaseUrl(fechaInicio.ToString("yyyy-MM-dd HH:mm:ss"), fechaFin.ToString("yyyy-MM-dd HH:mm:ss"));
                 //Enviamos el periodo que ya ha sido descargado.
                 MigrationFTP.RegistrarSiguientePeriodo(periodo);
                 Log.Information("Período {periodo} registrado y BaseUrl actualizada.", periodo);
