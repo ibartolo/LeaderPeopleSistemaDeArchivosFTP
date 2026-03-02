@@ -102,12 +102,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Prueba\Prueba.csproj">
-      <Project>{2a5cc5d6-0c54-4229-b12a-06e78fece713}</Project>
-      <Name>Prueba</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
