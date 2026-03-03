@@ -58,7 +58,7 @@ namespace WindowsService1
         #endregion
 
         #region Descargar el archivo del ftp
-        public static void DescargarArchivo(string server, string user, string pass, string filename, string savePath)
+        public static void DescargarArchivo(string server, string user, string pass, string filename, string savePath, int iteracion)
         {
             try
             {
@@ -82,12 +82,12 @@ namespace WindowsService1
                     }
                     Console.WriteLine($"Descargado: {filename}");
                 }
-                Log.Information("Archivo descargado correctamente: {filename}", filename);
+                Log.Information("{iteracion}.- Archivo descargado correctamente: {filename}", iteracion, filename);
             }
             catch(Exception ex)
             {
                 // Omitir archivo no encontrado y continuar
-                Log.Error("Error al descargar el archivo {filename}: {mensaje}", filename, ex.Message);
+                Log.Error("{iteracion}.- Error al descargar el archivo {filename}: {mensaje}", iteracion, filename, ex.Message);
                 throw;
             }
 
@@ -95,7 +95,7 @@ namespace WindowsService1
         #endregion
 
         #region Eliminar un archivo del ftp
-        public static void EliminarArchivo(string server, string filename, string user, string pass)
+        public static void EliminarArchivo(string server, string filename, string user, string pass, int iteracion)
         {
             try
             {
@@ -107,13 +107,13 @@ namespace WindowsService1
                 //Obtener la respuesta del server
                 using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
                 {
-                    Log.Information("Archivo eliminado: {StatusCode}", response.StatusCode);
+                    //Indicar la ruta del archivo eliminado y el numero de iteracion.
+                    Log.Information("{iteracion}.- Archivo eliminado: {filename}", iteracion, filename);
                 }
-
             }
             catch (Exception ex)
             {
-                Log.Error($"Error al eliminar el archivo: {ex.Message}");
+                Log.Error("{iteracion}.- Error al eliminar el archivo: {Message}", iteracion, ex.Message);
             }
         }
         #endregion
@@ -167,12 +167,8 @@ namespace WindowsService1
         #region Descargar lista de archivos
         public static void DescargarListaArchivos(string server, string user, string pass, List<AttachmentProvider> archivos, string downloadPath, bool AfterDelete, string periodo, DateTime Inicio, DateTime Fin)
         {
-            //le ingresaremos un log
-            //Console.WriteLine("¿Borrar archivos del servidor después de descargarlos? (s/n)");
-            //bool deleteAfter = Console.ReadLine().Trim().ToLower() == "s";
-            //Log.Information("¿Borrar archivos del servidor después de descargarlos? {deleteAfter}", deleteAfter);
             Log.Information("Iniciando descarga de {cantidad} archivos.", archivos.Count);
-            int exitosos = 0, fallidos = 0;
+            int exitosos = 0, fallidos = 0, iteracion = 1;
 
             foreach (var archivo in archivos)
             {
@@ -185,15 +181,16 @@ namespace WindowsService1
 
                 try
                 {
-                    DescargarArchivo(server, user, pass, archivo.FullName, rutaLocalCompleta);
+                    DescargarArchivo(server, user, pass, archivo.FullName, rutaLocalCompleta, iteracion);
                     exitosos++;
                     Log.Information("OK: {archivo}", archivo.FullName);
 
                     if (AfterDelete)
                     {
-                        EliminarArchivo(server, archivo.FullName, user, pass);
+                        EliminarArchivo(server, archivo.FullName, user, pass, iteracion);
                         Log.Information($"Archivo {archivo.FullName} eliminado del servidor FTP.");
                     }
+                    iteracion++;
                 }
                 catch (Exception ex)
                 {
