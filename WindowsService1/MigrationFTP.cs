@@ -189,6 +189,16 @@ namespace WindowsService1
                     {
                         EliminarArchivo(server, archivo.FullName, user, pass, iteracion);
                         Log.Information($"Archivo {archivo.FullName} eliminado del servidor FTP.");
+                        
+                        //control de si se actualizo o no
+                        try
+                        {
+                            ActualizarBaseUrl(archivo.Id);
+                            Log.Information("{iteracion}.- Se ha actualizado el BaseUrl exitosamente", iteracion);
+                        }catch(Exception ex)
+                        {
+                            Log.Error("{iteracion}.- Ocurrio un error para actualizar el BaseUrl: {Message}", iteracion, ex.Message);
+                        }
                     }
                     iteracion++;
                 }
@@ -256,7 +266,7 @@ namespace WindowsService1
         #endregion
 
         #region Contar Archivos existentes
-        public static int ContarArchivosExistentesEnFTP(string server, string user, string pass, string inicio, string fin)
+        public static int ContarArchivosExistentesEnFTP(string inicio, string fin)
         {
             // Obtener cadena de conexión y consulta desde la configuración
             string conexion = ConfigurationManager.ConnectionStrings["cCon"].ConnectionString;
@@ -403,15 +413,14 @@ namespace WindowsService1
         #endregion
 
         #region ActualizarBaseUrl
-        public static void ActualizarBaseUrl(string fechaInicio, string fechaFin)
+        public static void ActualizarBaseUrl(long id)
         {
             string conexion = ConfigurationManager.ConnectionStrings["cCon"].ConnectionString;
             using (var conn = new SqlConnection(conexion))
-            using (var cmd = new SqlCommand("ActualizarBaseUrl", conn))
+            using (var cmd = new SqlCommand("UpdateBaseUrl", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio);
-                cmd.Parameters.AddWithValue("@FechaFin", fechaFin);
+                cmd.Parameters.AddWithValue("@Id", id);
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
