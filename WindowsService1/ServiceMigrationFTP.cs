@@ -212,8 +212,7 @@ namespace WindowsService1
                 if (lista.Count > 0)
                 {
                     // Contar archivos existentes en FTP
-                    int existentes = MigrationFTP.ContarArchivosExistentesEnFTP(ftpServer, username, password, 
-                    fechaInicio.ToString("yyyy-MM-dd HH:mm:ss"), fechaFin.ToString("yyyy-MM-dd HH:mm:ss"));
+                    int existentes = MigrationFTP.ContarArchivosExistentesEnFTP(fechaInicio.ToString("yyyy-MM-dd HH:mm:ss"), fechaFin.ToString("yyyy-MM-dd HH:mm:ss"));
                     Log.Information("Archivos encontrados en la base de datos: {existentes}", existentes);
 
                     // Descargar archivos (algo pasa con el correo)
@@ -224,7 +223,7 @@ namespace WindowsService1
                     Log.Warning("No se encontraron archivos en la BD para el período.");
                 }
 
-                MigrationFTP.ActualizarBaseUrl(fechaInicio.ToString("yyyy-MM-dd HH:mm:ss"), fechaFin.ToString("yyyy-MM-dd HH:mm:ss"));
+                //MigrationFTP.ActualizarBaseUrl(fechaInicio.ToString("yyyy-MM-dd HH:mm:ss"), fechaFin.ToString("yyyy-MM-dd HH:mm:ss"));
                 //Enviamos el periodo que ya ha sido descargado.
                 MigrationFTP.RegistrarSiguientePeriodo(periodo);
                 Log.Information("Período {periodo} registrado y BaseUrl actualizada.", periodo);
